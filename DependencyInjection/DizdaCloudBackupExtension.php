@@ -27,7 +27,7 @@ class DizdaCloudBackupExtension extends Extension
         $loader->load('services.yml');
 
         /* Config output file */
-        $container->setParameter('dizda_cloud_backup.root_folder', $container->getParameter('kernel.root_dir').'/../');
+        $container->setParameter('dizda_cloud_backup.root_folder', $container->getParameter('kernel.project_dir').'/../');
         $container->setParameter('dizda_cloud_backup.output_folder', $container->getParameter('kernel.cache_dir').'/backup/');
 
         /* Assign all config vars */

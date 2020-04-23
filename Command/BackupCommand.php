@@ -16,11 +16,12 @@ class BackupCommand extends Command
     /**
      * Configure the command.
      */
-    protected static $defaultName = 'dizda:backup:start';
+    //protected static $defaultName = 'dizda:backup:start';
     
     protected function configure()
     {
         $this
+            ->setName('dizda:backup:start')
             ->setDescription('Upload a backup of your database to your cloud services.');
     }
 

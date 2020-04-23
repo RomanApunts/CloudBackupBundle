@@ -11,15 +11,16 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Jonathan Dizdarevic <dizda@dizda.fr>
  * @author István Manzuk <istvan.manzuk@gmail.com>
  */
-class BackupCommand extends ContainerAwareCommand
+class BackupCommand extends Command
 {
     /**
      * Configure the command.
      */
+    protected static $defaultName = 'dizda:backup:start';
+    
     protected function configure()
     {
         $this
-            ->setName('dizda:backup:start')
             ->setDescription('Upload a backup of your database to your cloud services.');
     }
 
@@ -40,6 +41,7 @@ class BackupCommand extends ContainerAwareCommand
         }
 
         $output->writeln('<info>Backup complete.</info>');
+        return 0;
     }
 
     /**

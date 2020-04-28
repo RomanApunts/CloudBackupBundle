@@ -5,6 +5,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Dizda\CloudBackupBundle\Manager\BackupManager;
+
 /**
  * Run backup command.
  *
@@ -13,6 +16,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class BackupCommand extends Command
 {
+    
+    private $container;
+    
+     public function __construct(BackupManager $manager, ContainerInterface $container){
+
+        $this->container    = $container;
+        $this->manager      = $manager;
+        parent::__construct();
+        
+    }
+    
     /**
      * Configure the command.
      */
@@ -36,6 +50,7 @@ class BackupCommand extends Command
         $this->checkEnvironment($output);
 
         if (!$this->getContainer()->get('dizda.cloudbackup.manager.backup')->execute()) {
+        //if(!$this->manager->execute()){
             $output->writeln('<error>Something went terribly wrong. We could not create a backup. Read your log files to see what caused this error.</error>');
 
             return 1; //error
@@ -52,7 +67,7 @@ class BackupCommand extends Command
      */
     protected function checkEnvironment(OutputInterface $output)
     {
-        if ($this->getContainer()->get('kernel')->getEnvironment() !== 'prod') {
+        if ($this->container->get('kernel')->getEnvironment() !== 'prod') {
             $output->writeln('<bg=yellow>                                                                            </bg=yellow>');
             $output->writeln('<bg=yellow;options=bold;fg=black>  Warning:                                                                  </bg=yellow;options=bold;fg=black>');
             $output->writeln('<bg=yellow;fg=black>  You should run the command in production environment ("--env=prod")       </bg=yellow;fg=black>');
